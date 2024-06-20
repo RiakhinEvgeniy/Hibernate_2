@@ -24,6 +24,7 @@
         <mapping class="com.riakhin.entity.Inventory"/>
         <mapping class="com.riakhin.entity.Staff"/>
         <mapping class="com.riakhin.entity.Store"/>
+        <mapping class="com.riakhin.entity.Customer"/>
 
     </session-factory>
 </hibernate-configuration>
