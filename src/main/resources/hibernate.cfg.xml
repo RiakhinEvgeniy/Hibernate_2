@@ -12,6 +12,7 @@
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.show_sql">true</property>
+        <property name="current_session_context_class">thread</property>
 
         <mapping class="com.riakhin.entity.Film"/>
         <mapping class="com.riakhin.entity.Language"/>
@@ -25,6 +26,8 @@
         <mapping class="com.riakhin.entity.Staff"/>
         <mapping class="com.riakhin.entity.Store"/>
         <mapping class="com.riakhin.entity.Customer"/>
+        <mapping class="com.riakhin.entity.Rental"/>
+        <mapping class="com.riakhin.entity.Payment"/>
 
     </session-factory>
 </hibernate-configuration>
