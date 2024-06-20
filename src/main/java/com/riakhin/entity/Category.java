@@ -1,10 +1,16 @@
 package com.riakhin.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@Builder
 @Entity
 @Table(name = "category", schema = "movie")
 public class Category {
