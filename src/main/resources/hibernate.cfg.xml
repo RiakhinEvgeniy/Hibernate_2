@@ -18,6 +18,12 @@
         <mapping class="com.riakhin.entity.Actor"/>
         <mapping class="com.riakhin.entity.Category"/>
         <mapping class="com.riakhin.entity.FilmText"/>
+        <mapping class="com.riakhin.entity.Address"/>
+        <mapping class="com.riakhin.entity.City"/>
+        <mapping class="com.riakhin.entity.Country"/>
+        <mapping class="com.riakhin.entity.Inventory"/>
+        <mapping class="com.riakhin.entity.Staff"/>
+        <mapping class="com.riakhin.entity.Store"/>
 
     </session-factory>
 </hibernate-configuration>
