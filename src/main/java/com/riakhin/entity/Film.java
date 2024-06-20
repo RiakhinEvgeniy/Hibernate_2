@@ -1,10 +1,7 @@
 package com.riakhin.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,9 +10,10 @@ import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.Set;
 
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 @Builder
 @Entity
 @Table(schema = "movie", name = "film")
@@ -72,4 +70,10 @@ public class Film {
     joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
     inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "actor_id"))
     private Set<Actor> actors;
+
+    @ManyToMany
+    @JoinTable(name = "film_category",
+            joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "category_id"))
+    private Set<Category> categories;
 }
