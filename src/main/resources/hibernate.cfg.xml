@@ -17,6 +17,7 @@
         <mapping class="com.riakhin.entity.Language"/>
         <mapping class="com.riakhin.entity.Actor"/>
         <mapping class="com.riakhin.entity.Category"/>
+        <mapping class="com.riakhin.entity.FilmText"/>
 
     </session-factory>
 </hibernate-configuration>
