@@ -19,4 +19,6 @@ public abstract class GenericDAO<T> {
         session.beginTransaction();
         return session.createQuery("from "+clazz.getName(), clazz).list();
     }
+
+
 }
