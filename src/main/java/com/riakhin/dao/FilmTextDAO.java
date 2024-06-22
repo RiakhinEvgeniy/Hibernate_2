@@ -1,7 +1,6 @@
 package com.riakhin.dao;
 
 import com.riakhin.entity.FilmText;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public class FilmTextDAO extends GenericDAO<FilmText> {

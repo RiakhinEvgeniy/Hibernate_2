@@ -1,7 +1,6 @@
 package com.riakhin.dao;
 
 import com.riakhin.entity.Staff;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public class StaffDAO extends GenericDAO<Staff> {

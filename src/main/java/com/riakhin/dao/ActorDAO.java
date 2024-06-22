@@ -1,7 +1,6 @@
 package com.riakhin.dao;
 
 import com.riakhin.entity.Actor;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public class ActorDAO extends GenericDAO<Actor> {

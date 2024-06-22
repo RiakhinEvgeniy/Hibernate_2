@@ -1,9 +1,7 @@
 package com.riakhin.dao;
 
 import com.riakhin.entity.City;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class CityDAO extends GenericDAO<City> {
