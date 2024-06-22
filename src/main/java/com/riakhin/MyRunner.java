@@ -27,6 +27,7 @@ public class MyRunner {
     private final LanguageDAO languageDAO;
     private final PaymentDAO paymentDAO;
     private final RatingDAO ratingDAO;
+    private final StaffDAO staffDAO;
     private final RentalDAO rentalDAO;
 
     public MyRunner() {
@@ -45,6 +46,7 @@ public class MyRunner {
         languageDAO = new LanguageDAO(sessionFactory);
         paymentDAO = new PaymentDAO(sessionFactory);
         ratingDAO = new RatingDAO(sessionFactory);
+        staffDAO = new StaffDAO(sessionFactory);
         rentalDAO = new RentalDAO(sessionFactory);
     }
 
