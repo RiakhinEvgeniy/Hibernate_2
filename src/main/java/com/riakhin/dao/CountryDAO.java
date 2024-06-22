@@ -2,10 +2,11 @@ package com.riakhin.dao;
 
 import com.riakhin.entity.Country;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public class CountryDAO extends GenericDAO<Country> {
 
-    public CountryDAO(Session session) {
-        super(Country.class, session);
+    public CountryDAO(SessionFactory sessionFactory) {
+        super(Country.class, sessionFactory);
     }
 }

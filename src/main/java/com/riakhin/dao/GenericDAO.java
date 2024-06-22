@@ -1,51 +1,55 @@
 package com.riakhin.dao;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
 public abstract class GenericDAO<T> {
 
     private final Class<T> clazz;
-    private final Session session;
+    private final SessionFactory sessionFactory;
 
-    public GenericDAO(final Class<T> clazz, Session session) {
+    public GenericDAO(final Class<T> clazz, SessionFactory sessionFactory) {
         this.clazz = clazz;
-        this.session = session;
+        this.sessionFactory = sessionFactory;
     }
 
     public T getById(final int id) {
-        return (T) session.get(clazz, id);
+        return getCurrentSession().get(clazz, id);
     }
 
     public List<T> getItems(int offset, int limit ) {
-        session.beginTransaction();
-        return session.createQuery("from "+clazz.getName(), clazz).list();
+        Query<T> query = getCurrentSession().createQuery("from " + clazz.getName(), clazz);
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+        return query.list();
     }
 
     public List<T> findAll() {
-        return session.createQuery("from "+clazz.getName(), clazz).list();
+        return getCurrentSession().createQuery("from "+clazz.getName(), clazz).list();
     }
 
     public T save(final T entity) {
-        session.saveOrUpdate(entity);
+        getCurrentSession().saveOrUpdate(entity);
         return entity;
     }
 
     public T update(final T entity) {
-        session.update(entity);
+        getCurrentSession().update(entity);
         return entity;
     }
 
     public void delete(final T entity) {
-        session.delete(entity);
+        getCurrentSession().delete(entity);
     }
 
     public void deleteById(final int id) {
-        session.delete(getById(id));
+        getCurrentSession().delete(getById(id));
     }
 
     public Session getCurrentSession() {
-        return session;
+        return sessionFactory.getCurrentSession();
     }
 }

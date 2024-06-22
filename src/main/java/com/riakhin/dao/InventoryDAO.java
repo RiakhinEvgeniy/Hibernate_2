@@ -2,10 +2,11 @@ package com.riakhin.dao;
 
 import com.riakhin.entity.Inventory;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public class InventoryDAO extends GenericDAO<Inventory> {
 
-    public InventoryDAO(Session session) {
-        super(Inventory.class, session);
+    public InventoryDAO(SessionFactory sessionFactory) {
+        super(Inventory.class, sessionFactory);
     }
 }
