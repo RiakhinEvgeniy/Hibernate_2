@@ -2,6 +2,7 @@ package com.riakhin;
 
 import com.riakhin.config.SessionCreator;
 import com.riakhin.dao.*;
+import com.riakhin.entity.City;
 import org.hibernate.Session;
 
 public class MyRunner {
@@ -44,6 +45,12 @@ public class MyRunner {
     }
 
     public static void main(String[] args) {
-        new MyRunner();
+        MyRunner myRunner = new MyRunner();
+        City city = myRunner.getCity("Aden");
+        System.out.println(city.getCity());
+    }
+
+    private City getCity(String name) {
+        return cityDAO.getCityByName(name);
     }
 }
