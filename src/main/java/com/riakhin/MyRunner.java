@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class MyRunner {
@@ -51,9 +52,46 @@ public class MyRunner {
 
     public static void main(String[] args) {
         MyRunner myRunner = new MyRunner();
-//        Customer customer1 = myRunner.createCustomer();
+        Customer customer = myRunner.createCustomer();
 //        myRunner.customerReturnedFilm();
+        myRunner.customerTakeFilm(customer);
 
+    }
+
+    private void customerTakeFilm(Customer customer) {
+        try(Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+
+            Film film = filmDAO.getFirstFilm();
+
+            Store store = storeDAO.getItems(0, 1).get(0);
+
+            Inventory inventory = new Inventory();
+            inventory.setFilm(film);
+            inventory.setStore(store);
+            inventoryDAO.save(inventory);
+
+            Staff staff = store.getManagerStaffId();
+
+            Rental rental = new Rental();
+            rental.setRentalDate(LocalDateTime.now());
+            rental.setInventory(inventory);
+            rental.setCustomerId(customer);
+            rental.setStaffId(staff);
+            rentalDAO.save(rental);
+
+            Payment payment = new Payment();
+            payment.setCustomer(customer);
+            payment.setStaffId(staff);
+            payment.setPaymentDate(LocalDateTime.now());
+            payment.setRentalId(rental);
+            payment.setAmount(BigDecimal.valueOf(75.75));
+            paymentDAO.save(payment);
+
+
+
+            session.getTransaction().commit();
+        }
     }
 
     private void customerReturnedFilm() {
@@ -68,7 +106,7 @@ public class MyRunner {
             session.getTransaction().commit();
         }
     }
-    public Customer createCustomer() {
+    private Customer createCustomer() {
 
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
