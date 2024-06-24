@@ -1,13 +1,12 @@
 package com.riakhin;
 
 import com.riakhin.dao.*;
-import com.riakhin.entity.Address;
-import com.riakhin.entity.City;
-import com.riakhin.entity.Customer;
-import com.riakhin.entity.Store;
+import com.riakhin.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import java.time.LocalDateTime;
 
 public class MyRunner {
 
@@ -52,10 +51,23 @@ public class MyRunner {
 
     public static void main(String[] args) {
         MyRunner myRunner = new MyRunner();
-        Customer customer = myRunner.createCustomer();
-        System.out.println(customer.getName());
+//        Customer customer1 = myRunner.createCustomer();
+//        myRunner.customerReturnedFilm();
+
     }
 
+    private void customerReturnedFilm() {
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+
+            Rental rental = rentalDAO.rentalReturnNot();
+            rental.setReturnDate(LocalDateTime.now());
+
+            rentalDAO.save(rental);
+
+            session.getTransaction().commit();
+        }
+    }
     public Customer createCustomer() {
 
         try (Session session = sessionFactory.getCurrentSession()) {

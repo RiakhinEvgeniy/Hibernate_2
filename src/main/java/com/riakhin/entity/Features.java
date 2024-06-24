@@ -30,4 +30,8 @@ public enum Features {
         }
         return null;
     }
+
+    public String getValue() {
+        return value;
+    }
 }

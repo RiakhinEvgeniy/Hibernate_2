@@ -8,7 +8,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,6 +36,7 @@ public class Film {
     private String description;
 
     @Column(name = "release_year", columnDefinition = "year")
+    @Convert(converter = YearConverter.class)
     private Year year;
 
     @ManyToOne
@@ -55,11 +60,12 @@ public class Film {
     private BigDecimal replacementCoast;
 
     @Column(columnDefinition = "enum('G', 'PG', 'PG-13', 'R', 'NC-17')")
+    @Convert(converter = RatingConverterToString.class)
     private Rating rating;
 
     @Column(columnDefinition = "set('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')",
     name = "special_features")
-    private Features specialFeatures;
+    private String specialFeatures;
 
     @Column(name = "last_update")
     @UpdateTimestamp
@@ -76,4 +82,25 @@ public class Film {
             joinColumns = @JoinColumn(name = "film_id", referencedColumnName = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "category_id"))
     private Set<Category> categories;
+
+    public Set<Features> getSpecialFeatures() {
+        if (isNull(specialFeatures) || specialFeatures.isEmpty()) {
+            return null;
+        }
+        Set<Features> result = new HashSet<>();
+        String[] split = specialFeatures.split(",");
+        for (String sp : split) {
+            result.add(Features.getFeaturesByValue(sp));
+        }
+        result.remove(null);
+        return result;
+    }
+
+    public void setSpecialFeatures(Set<Features> features) {
+        if (isNull(features)) {
+            specialFeatures = null;
+        } else {
+            specialFeatures = features.stream().map(Features::getValue).collect(Collectors.joining(","));
+        }
+    }
 }
