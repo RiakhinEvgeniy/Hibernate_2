@@ -8,6 +8,10 @@ import org.hibernate.cfg.Configuration;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.Year;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class MyRunner {
 
@@ -53,13 +57,67 @@ public class MyRunner {
     public static void main(String[] args) {
         MyRunner myRunner = new MyRunner();
         Customer customer = myRunner.createCustomer();
-//        myRunner.customerReturnedFilm();
+        myRunner.customerReturnedFilm();
         myRunner.customerTakeFilm(customer);
+        myRunner.addNewFilm();
+        myRunner.createCity();
+    }
 
+    private void createCity() {
+        try (Session session = sessionFactory.getCurrentSession()) {
+
+            session.beginTransaction();
+            Country ukraine = new Country();
+            ukraine.setLastName("Ukraine");
+            countryDAO.save(ukraine);
+
+            City odessa = new City();
+            odessa.setCountry(ukraine);
+            odessa.setCity("Odessa");
+            cityDAO.save(odessa);
+
+            session.getTransaction().commit();
+        }
+    }
+
+    private void addNewFilm() {
+
+        try (Session session = sessionFactory.getCurrentSession()) {
+            session.beginTransaction();
+
+            Language language = languageDAO.getItems(0, 10).stream().unordered().findAny().get();
+            List<Actor> actors = actorDAO.getItems(0, 10);
+            List<Category> categories = categoryDAO.getItems(0, 10);
+
+            Film film = new Film();
+            film.setActors(new HashSet<>(actors));
+            film.setCategories(new HashSet<>(categories));
+            film.setLength((short) 125);
+            film.setRating(Rating.PG13);
+            film.setLanguageId(language);
+            film.setDescription("scare");
+            film.setYear(Year.now());
+            film.setTitle("Predator 3");
+            film.setOriginalLanguage(language);
+            film.setRentalDurationId((byte) 50);
+            film.setReplacementCoast(BigDecimal.TEN);
+            film.setSpecialFeatures(Set.of(Features.COMMENTARIES, Features.TRAILERS));
+            film.setRentalRate(BigDecimal.ZERO);
+            filmDAO.save(film);
+
+            FilmText filmText = new FilmText();
+            filmText.setFilm(film);
+            filmText.setId(film.getId());
+            filmText.setDescription("scare");
+            filmText.setTitle("Predator 3");
+            filmTextDAO.save(filmText);
+
+            session.getTransaction().commit();
+        }
     }
 
     private void customerTakeFilm(Customer customer) {
-        try(Session session = sessionFactory.getCurrentSession()) {
+        try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
 
             Film film = filmDAO.getFirstFilm();
@@ -89,7 +147,6 @@ public class MyRunner {
             paymentDAO.save(payment);
 
 
-
             session.getTransaction().commit();
         }
     }
@@ -106,6 +163,7 @@ public class MyRunner {
             session.getTransaction().commit();
         }
     }
+
     private Customer createCustomer() {
 
         try (Session session = sessionFactory.getCurrentSession()) {

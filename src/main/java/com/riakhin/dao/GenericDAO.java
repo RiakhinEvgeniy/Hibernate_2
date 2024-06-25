@@ -32,7 +32,7 @@ public abstract class GenericDAO<T> {
     }
 
     public T save(final T entity) {
-        getCurrentSession().saveOrUpdate(entity);
+        getCurrentSession().save(entity);
         return entity;
     }
 
